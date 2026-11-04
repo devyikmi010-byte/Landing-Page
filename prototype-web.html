@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Yayasan Insan Kamil Mandiri Indonesia</title>
+<meta name="description" content="Prototype landing page Yayasan Insan Kamil Mandiri Indonesia — konten contoh untuk keperluan presentasi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+
+<style>
+/* ==========================================================
+   1. DESIGN TOKENS (ubah warna/ukuran di sini saja)
+   ========================================================== */
+:root{
+  --primary:#174B38;      /* Dark Forest Green */
+  --secondary:#287A54;    /* Islamic Green */
+  --accent:#C9A45C;       /* Warm Gold */
+  --bg:#FAF9F4;           /* Soft Cream */
+  --surface:#FFFFFF;
+  --text:#242C28;
+  --muted:#737D76;
+  --border:rgba(23,75,56,.12);
+  --radius:18px;
+  --radius-sm:12px;
+  --shadow-sm:0 2px 10px rgba(23,75,56,.07);
+  --shadow-md:0 14px 40px rgba(23,75,56,.12);
+  --font-main:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --font-head:'Playfair Display',Georgia,serif;
+  --nav-h:72px;
+  --container:1180px;
+}
+
+/* ==========================================================
+   2. RESET & BASE
+   ========================================================== */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:calc(var(--nav-h) + 12px)}
+body{margin:0;font-family:var(--font-main);color:var(--text);background:var(--bg);line-height:1.7;font-size:16px;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+img{max-width:100%;display:block}
+a{color:inherit;text-decoration:none}
+ul{margin:0;padding:0;list-style:none}
+h1,h2,h3,h4{margin:0;line-height:1.2;color:var(--primary)}
+p{margin:0}
+button{font-family:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:6px}
+
+.container{width:100%;max-width:var(--container);margin:0 auto;padding:0 20px}
+section{padding:72px 0}
+.eyebrow{display:inline-block;font-size:.78rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--secondary);margin-bottom:14px}
+.section-title{font-family:var(--font-head);font-size:clamp(1.9rem,4.5vw,2.8rem);font-weight:600;margin-bottom:16px}
+.section-sub{color:var(--muted);max-width:640px;font-size:1.05rem}
+.section-head{margin-bottom:44px}
+.section-head.center{text-align:center}
+.section-head.center .section-sub{margin:0 auto}
+
+/* Tombol */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 26px;border-radius:999px;font-weight:700;font-size:.95rem;border:2px solid transparent;transition:transform .25s,box-shadow .25s,background .25s,color .25s;min-height:48px}
+.btn:hover{transform:translateY(-2px)}
+.btn-primary{background:var(--primary);color:#fff;box-shadow:0 8px 20px rgba(23,75,56,.22)}
+.btn-primary:hover{background:var(--secondary)}
+.btn-outline{border-color:var(--primary);color:var(--primary);background:transparent}
+.btn-outline:hover{background:var(--primary);color:#fff}
+.btn-gold{background:var(--accent);color:var(--primary);box-shadow:0 8px 20px rgba(201,164,92,.35)}
+.btn-gold:hover{background:#d6b36d}
+.btn-sm{padding:10px 20px;min-height:42px;font-size:.88rem}
+.btn[disabled],.btn.is-disabled{opacity:.55;cursor:not-allowed;transform:none;box-shadow:none}
+
+/* Placeholder foto: tampil jika URL gambar gagal dimuat */
+.ph{position:relative;background:linear-gradient(135deg,#dfe9e2,#c9d9cf);overflow:hidden}
+.ph img{width:100%;height:100%;object-fit:cover;transition:transform .6s ease}
+.ph.is-broken::after{content:attr(data-label);position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;font-size:.85rem;font-weight:600;color:var(--primary)}
+
+/* Penanda konten contoh */
+.demo-tag{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 10px;border-radius:999px;background:rgba(201,164,92,.18);color:#8a6a28}
+
+/* Reveal animation */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .8s ease,transform .8s ease}
+.reveal.is-visible{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;transition:none}
+  *{animation:none!important}
+}
+
+/* ==========================================================
+   3. NAVBAR
+   ========================================================== */
+.navbar{position:sticky;top:0;z-index:100;height:var(--nav-h);background:rgba(255,255,255,.92);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);transition:box-shadow .3s}
+.navbar.scrolled{box-shadow:0 4px 22px rgba(23,75,56,.12)}
+.nav-inner{height:100%;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:12px;min-width:0}
+.brand-logo{flex:none;width:44px;height:44px}
+.brand-name{font-weight:800;font-size:.9rem;line-height:1.2;color:var(--primary);max-width:190px}
+.nav-menu{display:none}
+.nav-menu a.nav-link{font-size:.92rem;font-weight:600;color:var(--text);padding:8px 2px;position:relative;transition:color .2s}
+.nav-menu a.nav-link::after{content:"";position:absolute;left:0;bottom:2px;width:0;height:2px;background:var(--accent);transition:width .25s}
+.nav-menu a.nav-link:hover,.nav-menu a.nav-link.active{color:var(--secondary)}
+.nav-menu a.nav-link:hover::after,.nav-menu a.nav-link.active::after{width:100%}
+.nav-cta-desktop{display:none}
+.hamburger{width:46px;height:46px;border:1px solid var(--border);border-radius:12px;background:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.hamburger span{width:20px;height:2px;background:var(--primary);border-radius:2px;transition:transform .3s,opacity .3s}
+.hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.hamburger.open span:nth-child(2){opacity:0}
+.hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{position:fixed;top:var(--nav-h);left:0;right:0;background:#fff;padding:12px 20px 24px;box-shadow:0 20px 30px rgba(23,75,56,.12);transform:translateY(-12px);opacity:0;visibility:hidden;transition:all .3s;z-index:99;max-height:calc(100vh - var(--nav-h));overflow-y:auto}
+.mobile-menu.open{transform:none;opacity:1;visibility:visible}
+.mobile-menu a.nav-link{display:block;padding:14px 4px;font-weight:600;border-bottom:1px solid var(--border)}
+.mobile-menu .btn{width:100%;margin-top:18px}
+
+@media (min-width:1000px){
+  .nav-menu{display:flex;align-items:center;gap:26px}
+  .nav-cta-desktop{display:inline-flex}
+  .hamburger,.mobile-menu{display:none}
+  .brand-name{font-size:.95rem;max-width:230px}
+}
+
+/* ==========================================================
+   4. HERO
+   ========================================================== */
+.hero{padding:48px 0 72px;background:radial-gradient(900px 420px at 90% 0%,rgba(40,122,84,.09),transparent 60%),var(--bg)}
+.hero-grid{display:grid;gap:40px;align-items:center}
+.hero-label{display:inline-flex;align-items:center;gap:8px;font-size:.78rem;font-weight:700;color:var(--primary);background:#fff;border:1px solid var(--border);padding:8px 16px;border-radius:999px;margin-bottom:22px;box-shadow:var(--shadow-sm)}
+.hero-label i{width:8px;height:8px;border-radius:50%;background:var(--accent)}
+.hero h1{font-family:var(--font-head);font-size:clamp(2.2rem,6.4vw,3.8rem);font-weight:700;margin-bottom:20px}
+.hero h1 em{font-style:italic;color:var(--secondary)}
+.hero p.lead{font-size:1.08rem;color:var(--muted);max-width:540px;margin-bottom:30px}
+.hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+.hero-media{position:relative}
+.hero-photo{aspect-ratio:4/4.4;border-radius:28px 28px 28px 120px;box-shadow:var(--shadow-md)}
+.hero-badge{position:absolute;left:-6px;bottom:28px;background:#fff;border-radius:var(--radius-sm);padding:14px 18px;box-shadow:var(--shadow-md);display:flex;align-items:center;gap:12px;max-width:250px}
+.hero-badge .dot{flex:none;width:40px;height:40px;border-radius:50%;background:rgba(201,164,92,.2);display:flex;align-items:center;justify-content:center;color:var(--accent)}
+.hero-badge b{display:block;font-size:.85rem;color:var(--primary);line-height:1.3}
+.hero-badge span{font-size:.74rem;color:var(--muted)}
+@media (min-width:900px){
+  .hero{padding:72px 0 96px}
+  .hero-grid{grid-template-columns:1.05fr .95fr;gap:64px}
+  .hero-badge{left:-28px}
+}
+
+/* ==========================================================
+   5. ABOUT
+   ========================================================== */
+.about-grid{display:grid;gap:40px;align-items:center}
+.about-photos{position:relative;padding-bottom:40px}
+.about-photo-main{aspect-ratio:4/3;border-radius:var(--radius)}
+.about-photo-sub{position:absolute;right:-4px;bottom:0;width:46%;aspect-ratio:1;border-radius:var(--radius);border:6px solid var(--bg);box-shadow:var(--shadow-md)}
+.about-text h2{font-family:var(--font-head);font-size:clamp(1.8rem,4vw,2.5rem);font-weight:600;margin-bottom:18px}
+.about-text p{color:var(--muted);margin-bottom:14px}
+.about-text .btn{margin-top:10px}
+.about-points{display:grid;gap:10px;margin:18px 0 8px}
+.about-points li{display:flex;gap:12px;align-items:flex-start;font-weight:500}
+.about-points svg{flex:none;margin-top:4px;color:var(--secondary)}
+@media (min-width:900px){.about-grid{grid-template-columns:1fr 1fr;gap:72px}}
+
+/* ==========================================================
+   6. VISI MISI
+   ========================================================== */
+.vm{background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+.vm-grid{display:grid;gap:24px}
+.vm-card{border-radius:var(--radius);padding:36px 30px}
+.vm-visi{background:var(--primary);color:#fff}
+.vm-visi h3{color:var(--accent);font-family:var(--font-head);font-size:1.6rem;margin-bottom:16px}
+.vm-visi p{font-size:1.15rem;line-height:1.75;font-family:var(--font-head);font-weight:500}
+.vm-misi{background:var(--bg);border:1px solid var(--border)}
+.vm-misi h3{font-family:var(--font-head);font-size:1.6rem;margin-bottom:18px}
+.vm-misi ol{margin:0;padding:0;list-style:none;counter-reset:m;display:grid;gap:16px}
+.vm-misi li{counter-increment:m;display:flex;gap:16px;align-items:flex-start;font-weight:500}
+.vm-misi li::before{content:counter(m);flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--primary);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem}
+.vm-note{margin-top:20px;font-size:.82rem;color:var(--muted)}
+@media (min-width:900px){.vm-grid{grid-template-columns:1fr 1fr}.vm-card{padding:44px 40px}}
+
+/* ==========================================================
+   7. PROGRAM
+   ========================================================== */
+.program-grid{display:grid;gap:22px}
+.program-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:transform .35s,box-shadow .35s}
+.program-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-md)}
+.program-card:hover .ph img{transform:scale(1.06)}
+.program-card .ph{aspect-ratio:16/11}
+.program-body{padding:24px;display:flex;flex-direction:column;gap:10px;flex:1}
+.program-body h3{font-size:1.2rem}
+.program-body p{color:var(--muted);font-size:.95rem;flex:1}
+.program-link{display:inline-flex;align-items:center;gap:6px;font-weight:700;color:var(--secondary);font-size:.92rem;background:none;border:none;padding:0;margin-top:6px;width:fit-content}
+.program-link:hover{color:var(--primary);gap:10px}
+.program-link{transition:gap .2s,color .2s}
+@media (min-width:640px){.program-grid{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1100px){.program-grid{grid-template-columns:repeat(4,1fr)}}
+
+/* ==========================================================
+   8. PERTANIAN MADANI (visual khusus: latar hijau gelap)
+   ========================================================== */
+.madani{background:var(--primary);color:#fff;position:relative;overflow:hidden}
+.madani::before{content:"";position:absolute;right:-120px;top:-120px;width:380px;height:380px;border-radius:50%;background:rgba(201,164,92,.09)}
+.madani .container{position:relative}
+.madani .eyebrow{color:var(--accent)}
+.madani h2{font-family:var(--font-head);color:#fff;font-size:clamp(1.9rem,4.5vw,2.8rem);font-weight:600;margin-bottom:18px}
+.madani-grid{display:grid;gap:44px;align-items:center}
+.madani-loc{display:inline-flex;gap:8px;align-items:center;font-size:.9rem;font-weight:600;background:rgba(255,255,255,.1);padding:8px 16px;border-radius:999px;margin-bottom:20px}
+.madani-loc svg{color:var(--accent)}
+.madani p.desc{color:rgba(255,255,255,.8);margin-bottom:12px;max-width:520px}
+.madani .note{font-size:.8rem;color:rgba(255,255,255,.55);margin-bottom:26px}
+.madani-photos{display:grid;grid-template-columns:1.3fr 1fr;gap:14px}
+.madani-photos .ph{border-radius:var(--radius)}
+.madani-photos .ph:first-child{grid-row:span 2;aspect-ratio:3/4}
+.madani-photos .ph:nth-child(2){aspect-ratio:1}
+.madani-photos .ph:nth-child(3){aspect-ratio:1}
+.madani .ph{background:linear-gradient(135deg,#1f5c46,#287A54)}
+.madani .ph.is-broken::after{color:#fff}
+@media (min-width:900px){.madani-grid{grid-template-columns:1fr 1.1fr;gap:72px}}
+
+/* ==========================================================
+   9. IMPACT
+   ========================================================== */
+.impact-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:28px 16px;text-align:center}
+.impact-item{padding:10px}
+.impact-num{font-family:var(--font-head);font-size:clamp(2.6rem,7vw,4.2rem);font-weight:700;color:var(--primary);line-height:1}
+.impact-num sup{font-size:.5em;color:var(--accent);margin-left:2px}
+.impact-label{margin-top:10px;font-weight:600;color:var(--muted);font-size:.95rem}
+.impact-note{margin:40px auto 0;max-width:560px;text-align:center;font-size:.85rem;color:#8a6a28;background:rgba(201,164,92,.14);border:1px dashed var(--accent);border-radius:var(--radius-sm);padding:12px 18px}
+@media (min-width:800px){.impact-grid{grid-template-columns:repeat(4,1fr)}.impact-item+.impact-item{border-left:1px solid var(--border)}}
+
+/* ==========================================================
+   10. GALERI (masonry sederhana)
+   ========================================================== */
+.gallery{background:#fff;border-top:1px solid var(--border)}
+.gallery-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;grid-auto-flow:dense}
+.g-item{position:relative;border-radius:var(--radius-sm);overflow:hidden;cursor:zoom-in;border:none;padding:0;background:none;display:block;width:100%}
+.g-item .ph{width:100%;aspect-ratio:1}
+.g-item.tall .ph{aspect-ratio:3/4}
+.g-item.wide .ph{aspect-ratio:16/9}
+.g-item:hover .ph img{transform:scale(1.07)}
+.g-cap{position:absolute;left:0;right:0;bottom:0;padding:26px 14px 12px;background:linear-gradient(transparent,rgba(23,75,56,.82));color:#fff;font-size:.82rem;font-weight:600;text-align:left;opacity:0;transition:opacity .3s}
+.g-item:hover .g-cap,.g-item:focus-visible .g-cap{opacity:1}
+@media (min-width:800px){
+  .gallery-grid{grid-template-columns:repeat(4,1fr);gap:16px}
+  .g-item.wide{grid-column:span 2}
+  .g-item.tall{grid-row:span 2}
+  .g-item.tall .ph{aspect-ratio:auto;height:100%;min-height:100%}
+  .g-item.wide .ph{aspect-ratio:2/1}
+  .g-item.tall{display:flex}
+}
+@media (hover:none){.g-cap{opacity:1}}
+
+/* Lightbox */
+.lightbox{position:fixed;inset:0;background:rgba(10,28,20,.92);z-index:300;display:none;align-items:center;justify-content:center;padding:24px}
+.lightbox.open{display:flex}
+.lightbox figure{margin:0;max-width:960px;width:100%;text-align:center}
+.lightbox img{max-height:76vh;width:auto;margin:0 auto;border-radius:12px}
+.lightbox figcaption{color:#fff;margin-top:14px;font-size:.92rem}
+.lb-btn{position:absolute;width:48px;height:48px;border-radius:50%;border:none;background:rgba(255,255,255,.14);color:#fff;font-size:1.4rem;display:flex;align-items:center;justify-content:center;transition:background .2s}
+.lb-btn:hover{background:rgba(255,255,255,.28)}
+.lb-close{top:18px;right:18px}
+.lb-prev{left:14px;top:50%;transform:translateY(-50%)}
+.lb-next{right:14px;top:50%;transform:translateY(-50%)}
+
+/* ==========================================================
+   11. BERITA
+   ========================================================== */
+.news-grid{display:grid;gap:24px}
+.news-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;display:flex;flex-direction:column;transition:box-shadow .3s,transform .3s}
+.news-card:hover{box-shadow:var(--shadow-md);transform:translateY(-4px)}
+.news-card:hover .ph img{transform:scale(1.05)}
+.news-card .ph{aspect-ratio:16/10}
+.news-body{padding:24px;display:flex;flex-direction:column;gap:10px;flex:1}
+.news-meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;font-size:.78rem;color:var(--muted)}
+.news-cat{font-weight:700;color:var(--secondary);text-transform:uppercase;letter-spacing:.08em}
+.news-body h3{font-size:1.15rem;line-height:1.4}
+.news-body p{color:var(--muted);font-size:.93rem;flex:1}
+@media (min-width:700px){.news-grid{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1000px){.news-grid{grid-template-columns:repeat(3,1fr)}}
+
+/* ==========================================================
+   12. CTA DONASI
+   ========================================================== */
+.cta{padding:0 0 72px}
+.cta-box{background:linear-gradient(135deg,var(--primary),var(--secondary));border-radius:28px;padding:56px 28px;text-align:center;color:#fff;position:relative;overflow:hidden}
+.cta-box::after{content:"";position:absolute;left:-60px;bottom:-90px;width:260px;height:260px;border-radius:50%;background:rgba(201,164,92,.16)}
+.cta-box>*{position:relative;z-index:1}
+.cta-box h2{font-family:var(--font-head);color:#fff;font-size:clamp(1.8rem,4.5vw,2.7rem);font-weight:600;margin-bottom:14px}
+.cta-box p.d{max-width:560px;margin:0 auto 28px;color:rgba(255,255,255,.85)}
+.cta-note{margin-top:20px;font-size:.82rem;color:rgba(255,255,255,.7)}
+
+/* ==========================================================
+   13. KONTAK
+   ========================================================== */
+.contact-grid{display:grid;gap:22px}
+.contact-card{background:#fff;border:1px solid var(--border);border-radius:var(--radius);padding:26px;display:flex;gap:16px;align-items:flex-start}
+.contact-icon{flex:none;width:48px;height:48px;border-radius:14px;background:rgba(40,122,84,.1);color:var(--secondary);display:flex;align-items:center;justify-content:center}
+.contact-card b{display:block;color:var(--primary);margin-bottom:2px}
+.contact-card span{color:var(--muted);font-size:.95rem;word-break:break-word}
+.contact-action{margin-top:28px;display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+.contact-action small{color:var(--muted)}
+@media (min-width:700px){.contact-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* ==========================================================
+   14. FOOTER
+   ========================================================== */
+footer{background:var(--primary);color:rgba(255,255,255,.8);padding:64px 0 0}
+.footer-grid{display:grid;gap:36px;padding-bottom:44px}
+.footer-brand .brand-name{color:#fff;max-width:260px}
+.footer-brand p{margin-top:16px;font-size:.92rem;max-width:340px}
+footer h4{color:var(--accent);font-size:.82rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:16px}
+footer li{margin-bottom:10px;font-size:.93rem}
+footer a:hover{color:var(--accent)}
+.social{display:flex;gap:10px;margin-top:6px}
+.social a{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;transition:background .2s,color .2s}
+.social a:hover{background:var(--accent);color:var(--primary)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.14);padding:20px 0;font-size:.82rem;display:flex;flex-direction:column;gap:6px;text-align:center}
+@media (min-width:800px){.footer-grid{grid-template-columns:1.6fr 1fr 1.2fr}.footer-bottom{flex-direction:row;justify-content:space-between;text-align:left}}
+
+/* ==========================================================
+   15. MODAL "FITUR SEGERA HADIR" + BACK TO TOP
+   ========================================================== */
+.modal{position:fixed;inset:0;background:rgba(10,28,20,.6);z-index:250;display:none;align-items:center;justify-content:center;padding:20px}
+.modal.open{display:flex}
+.modal-box{background:#fff;border-radius:22px;padding:36px 28px;max-width:440px;width:100%;text-align:center;box-shadow:var(--shadow-md)}
+.modal-box .ico{width:60px;height:60px;border-radius:50%;background:rgba(201,164,92,.2);color:var(--accent);display:flex;align-items:center;justify-content:center;margin:0 auto 18px}
+.modal-box h3{font-family:var(--font-head);font-size:1.5rem;margin-bottom:10px}
+.modal-box p{color:var(--muted);margin-bottom:24px;font-size:.95rem}
+.to-top{position:fixed;right:18px;bottom:18px;width:48px;height:48px;border-radius:50%;border:none;background:var(--primary);color:#fff;box-shadow:var(--shadow-md);display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translateY(12px);transition:all .3s;z-index:90}
+.to-top.show{opacity:1;visibility:visible;transform:none}
+.to-top:hover{background:var(--secondary)}
+</style>
+</head>
+
+<body>
+
+<!-- ============ NAVBAR ============ -->
+<header class="navbar" id="navbar">
+  <div class="container nav-inner">
+    <a href="#beranda" class="brand" aria-label="Yayasan Insan Kamil Mandiri Indonesia — Beranda">
+      <!-- GANTI: logo resmi yayasan (monogram SVG sementara) -->
+      <svg class="brand-logo" viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="24" r="23" fill="#174B38"/>
+        <circle cx="24" cy="24" r="19" fill="none" stroke="#C9A45C" stroke-width="1.5"/>
+        <text x="24" y="29" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="14" fill="#C9A45C">IKM</text>
+      </svg>
+      <span class="brand-name">Yayasan Insan Kamil Mandiri Indonesia</span>
+    </a>
+
+    <nav class="nav-menu" aria-label="Navigasi utama">
+      <a class="nav-link" href="#beranda">Beranda</a>
+      <a class="nav-link" href="#tentang">Tentang Kami</a>
+      <a class="nav-link" href="#program">Program</a>
+      <a class="nav-link" href="#kegiatan">Kegiatan</a>
+      <a class="nav-link" href="#berita">Berita</a>
+      <a class="nav-link" href="#kontak">Kontak</a>
+    </nav>
+    <a href="#donasi" class="btn btn-gold btn-sm nav-cta-desktop">Infaq &amp; Sedekah</a>
+
+    <button class="hamburger" id="hamburger" aria-label="Buka menu" aria-expanded="false" aria-controls="mobileMenu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a class="nav-link" href="#beranda">Beranda</a>
+  <a class="nav-link" href="#tentang">Tentang Kami</a>
+  <a class="nav-link" href="#program">Program</a>
+  <a class="nav-link" href="#kegiatan">Kegiatan</a>
+  <a class="nav-link" href="#berita">Berita</a>
+  <a class="nav-link" href="#kontak">Kontak</a>
+  <a href="#donasi" class="btn btn-gold">Infaq &amp; Sedekah</a>
+</div>
+
+<main>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="beranda">
+  <div class="container hero-grid">
+    <div class="reveal">
+      <span class="hero-label"><i></i> Yayasan Insan Kamil Mandiri Indonesia</span>
+      <h1>Menebar Manfaat, <em>Membangun Kemandirian</em> Umat</h1>
+      <p class="lead">Yayasan Insan Kamil Mandiri Indonesia hadir sebagai bagian dari ikhtiar membangun masyarakat yang berdaya, mandiri, dan memberikan manfaat bagi sesama.</p>
+      <div class="hero-actions">
+        <a href="#tentang" class="btn btn-primary">Mengenal Yayasan</a>
+        <a href="#program" class="btn btn-outline">Lihat Program Kami</a>
+      </div>
+    </div>
+    <div class="hero-media reveal">
+      <!-- GANTI: foto kegiatan asli yayasan -->
+      <div class="ph hero-photo" data-label="[Foto Hero — ganti dengan foto kegiatan yayasan]">
+        <img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=1000&q=80" alt="Relawan dan masyarakat bergotong royong dalam kegiatan sosial" loading="eager">
+      </div>
+      <div class="hero-badge">
+        <span class="dot"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z"/></svg></span>
+        <div><b>Peduli &amp; Berdaya</b><span>Konten prototype (contoh)</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TENTANG KAMI ============ -->
+<section id="tentang">
+  <div class="container about-grid">
+    <div class="about-photos reveal">
+      <div class="ph about-photo-main" data-label="[Foto Kegiatan]">
+        <img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1000&q=80" alt="Kegiatan kebersamaan relawan dalam program sosial" loading="lazy">
+      </div>
+      <div class="ph about-photo-sub" data-label="[Foto]">
+        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&w=600&q=80" alt="Anak-anak dalam kegiatan pendidikan dan kebersamaan" loading="lazy">
+      </div>
+    </div>
+    <div class="about-text reveal">
+      <span class="eyebrow">Tentang Kami</span>
+      <h2>Bergerak Bersama untuk Membangun Kemandirian</h2>
+      <!-- GANTI: deskripsi resmi yayasan -->
+      <p>Yayasan Insan Kamil Mandiri Indonesia merupakan organisasi yang hadir dengan semangat kepedulian sosial, pemberdayaan, dan pengembangan potensi masyarakat. Melalui berbagai inisiatif dan program, yayasan berupaya menghadirkan kontribusi positif bagi lingkungan dan masyarakat.</p>
+      <ul class="about-points">
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Berorientasi pada kemanfaatan dan pemberdayaan</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Mengedepankan nilai amanah dan transparansi</li>
+        <li><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Membangun kolaborasi yang berkelanjutan</li>
+      </ul>
+      <p style="font-size:.82rem">Teks di atas adalah contoh konseptual. [Profil resmi yayasan menyusul].</p>
+      <button class="btn btn-primary" data-modal="Halaman profil lengkap yayasan sedang dipersiapkan.">Selengkapnya</button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ VISI & MISI ============ -->
+<section class="vm" id="visimisi">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Arah Gerak</span>
+      <h2 class="section-title">Visi dan Misi Kami</h2>
+    </div>
+    <div class="vm-grid">
+      <div class="vm-card vm-visi reveal">
+        <h3>Visi</h3>
+        <!-- GANTI: [Visi Resmi] -->
+        <p>Menjadi lembaga yang berkontribusi dalam membangun masyarakat yang mandiri, berdaya, dan berakhlak melalui berbagai program kemanfaatan.</p>
+      </div>
+      <div class="vm-card vm-misi reveal">
+        <h3>Misi</h3>
+        <!-- GANTI: [Misi Resmi] -->
+        <ol>
+          <li>Mengembangkan program pemberdayaan masyarakat.</li>
+          <li>Mendorong kepedulian dan solidaritas sosial.</li>
+          <li>Mengembangkan potensi pendidikan dan ekonomi masyarakat.</li>
+          <li>Membangun kolaborasi yang memberikan manfaat berkelanjutan.</li>
+        </ol>
+      </div>
+    </div>
+    <p class="vm-note center" style="text-align:center">Teks visi dan misi merupakan contoh konseptual, bukan pernyataan resmi yayasan.</p>
+  </div>
+</section>
+
+<!-- ============ PROGRAM ============ -->
+<section id="program">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Program</span>
+      <h2 class="section-title">Program dan Inisiatif Kami</h2>
+      <p class="section-sub">Berbagai langkah nyata untuk memberikan manfaat bagi masyarakat.</p>
+    </div>
+    <div class="program-grid">
+      <!-- GANTI: foto & deskripsi program asli. Seluruh program berlabel contoh. -->
+      <article class="program-card reveal">
+        <div class="ph" data-label="[Foto Program 1]"><img src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=800&q=80" alt="Masyarakat bergotong royong dalam kegiatan pemberdayaan" loading="lazy"></div>
+        <div class="program-body">
+          <span class="demo-tag">Konten contoh</span>
+          <h3>Pemberdayaan Masyarakat</h3>
+          <p>Mendorong kemandirian masyarakat melalui berbagai kegiatan sosial dan pemberdayaan.</p>
+          <button class="program-link" data-modal="Detail program ini sedang dipersiapkan.">Pelajari Program <span aria-hidden="true">→</span></button>
+        </div>
+      </article>
+      <article class="program-card reveal">
+        <div class="ph" data-label="[Foto Program 2]"><img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800&q=80" alt="Anak-anak belajar dalam kegiatan pendidikan" loading="lazy"></div>
+        <div class="program-body">
+          <span class="demo-tag">Konten contoh</span>
+          <h3>Pendidikan dan Pengembangan SDM</h3>
+          <p>Mendukung peningkatan pengetahuan, keterampilan, dan potensi generasi masa depan.</p>
+          <button class="program-link" data-modal="Detail program ini sedang dipersiapkan.">Pelajari Program <span aria-hidden="true">→</span></button>
+        </div>
+      </article>
+      <article class="program-card reveal">
+        <div class="ph" data-label="[Foto Program 3]"><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=800&q=80" alt="Hamparan lahan pertanian hijau" loading="lazy"></div>
+        <div class="program-body">
+          <span class="demo-tag">Konten contoh</span>
+          <h3>Pertanian dan Ketahanan Pangan</h3>
+          <p>Mendorong pengembangan sektor pertanian dan potensi ekonomi masyarakat.</p>
+          <button class="program-link" data-modal="Detail program ini sedang dipersiapkan.">Pelajari Program <span aria-hidden="true">→</span></button>
+        </div>
+      </article>
+      <article class="program-card reveal">
+        <div class="ph" data-label="[Foto Program 4]"><img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=800&q=80" alt="Relawan menyiapkan bantuan untuk sesama" loading="lazy"></div>
+        <div class="program-body">
+          <span class="demo-tag">Konten contoh</span>
+          <h3>Infaq dan Sedekah</h3>
+          <p>Mengajak masyarakat berbagi dan menghadirkan manfaat bagi sesama.</p>
+          <button class="program-link" data-modal="Fitur Infaq &amp; Sedekah sedang dipersiapkan untuk fase berikutnya.">Pelajari Program <span aria-hidden="true">→</span></button>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PERTANIAN MADANI ============ -->
+<section class="madani" id="pertanian-madani">
+  <div class="container madani-grid">
+    <div class="reveal">
+      <span class="eyebrow">Inisiatif Pertanian</span>
+      <h2>Kavling Pertanian Madani</h2>
+      <div class="madani-loc">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Pasir Putih, Siak Hulu, Kabupaten Kampar, Riau
+      </div>
+      <h3 style="color:#fff;font-size:1.25rem;margin-bottom:14px;font-weight:600">Membangun Kemandirian Melalui Potensi Pertanian</h3>
+      <!-- GANTI: deskripsi resmi. JANGAN tambah harga, luas, jumlah kavling, atau klaim kepemilikan sebelum datanya ada. -->
+      <p class="desc">Pertanian Madani merupakan salah satu inisiatif yang diperkenalkan sebagai bagian dari pengembangan potensi pertanian dan pemberdayaan masyarakat.</p>
+      <p class="note">Konten contoh. Informasi rinci akan disampaikan melalui layanan resmi yayasan.</p>
+      <button class="btn btn-gold" data-modal="Informasi lengkap Pertanian Madani sedang dipersiapkan.">Kenali Program</button>
+    </div>
+    <div class="madani-photos reveal">
+      <div class="ph" data-label="[Foto Lahan]"><img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=800&q=80" alt="Lahan pertanian hijau yang luas" loading="lazy"></div>
+      <div class="ph" data-label="[Foto Aktivitas]"><img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=600&q=80" alt="Aktivitas bertani di lahan pertanian" loading="lazy"></div>
+      <div class="ph" data-label="[Foto Tanaman]"><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=600&q=80" alt="Tanaman tumbuh subur di ladang" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ IMPACT ============ -->
+<section id="dampak">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Dampak</span>
+      <h2 class="section-title">Langkah Kecil, Dampak Bermakna</h2>
+    </div>
+    <!-- GANTI: seluruh angka dengan data terverifikasi (atribut data-target = angka akhir) -->
+    <div class="impact-grid reveal">
+      <div class="impact-item"><div class="impact-num"><span data-target="120">0</span><sup>+</sup></div><div class="impact-label">Penerima Manfaat</div></div>
+      <div class="impact-item"><div class="impact-num"><span data-target="15">0</span><sup>+</sup></div><div class="impact-label">Kegiatan Sosial</div></div>
+      <div class="impact-item"><div class="impact-num"><span data-target="4">0</span></div><div class="impact-label">Program Inisiatif</div></div>
+      <div class="impact-item"><div class="impact-num"><span data-target="10">0</span><sup>+</sup></div><div class="impact-label">Mitra Kolaborasi</div></div>
+    </div>
+    <p class="impact-note">Angka di atas adalah placeholder demonstrasi (data ilustrasi) dan harus diganti dengan data terverifikasi.</p>
+  </div>
+</section>
+
+<!-- ============ GALERI ============ -->
+<section class="gallery" id="kegiatan">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Galeri</span>
+      <h2 class="section-title">Dokumentasi Kegiatan</h2>
+      <p class="section-sub">Foto contoh untuk keperluan prototype. Ganti dengan dokumentasi asli yayasan.</p>
+    </div>
+    <!-- GANTI: foto & caption galeri -->
+    <div class="gallery-grid reveal">
+      <button class="g-item wide" data-full="https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=1600&q=80" data-cap="Kegiatan sosial (contoh)"><div class="ph" data-label="[Kegiatan Sosial]"><img src="https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=900&q=75" alt="Kegiatan sosial bersama masyarakat" loading="lazy"></div><span class="g-cap">Kegiatan sosial</span></button>
+      <button class="g-item tall" data-full="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1600&q=80" data-cap="Aktivitas pendidikan (contoh)"><div class="ph" data-label="[Pendidikan]"><img src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=700&q=75" alt="Aktivitas pendidikan anak-anak" loading="lazy"></div><span class="g-cap">Aktivitas pendidikan</span></button>
+      <button class="g-item" data-full="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=1600&q=80" data-cap="Pemberdayaan masyarakat (contoh)"><div class="ph" data-label="[Pemberdayaan]"><img src="https://images.unsplash.com/photo-1542810634-71277d95dcbb?auto=format&fit=crop&w=600&q=75" alt="Kegiatan pemberdayaan masyarakat" loading="lazy"></div><span class="g-cap">Pemberdayaan masyarakat</span></button>
+      <button class="g-item" data-full="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=1600&q=80" data-cap="Aktivitas pertanian (contoh)"><div class="ph" data-label="[Pertanian]"><img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?auto=format&fit=crop&w=600&q=75" alt="Aktivitas pertanian di ladang" loading="lazy"></div><span class="g-cap">Aktivitas pertanian</span></button>
+      <button class="g-item" data-full="https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=1600&q=80" data-cap="Kegiatan kebersamaan (contoh)"><div class="ph" data-label="[Kebersamaan]"><img src="https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=600&q=75" alt="Kegiatan kebersamaan para relawan" loading="lazy"></div><span class="g-cap">Kegiatan kebersamaan</span></button>
+      <button class="g-item wide" data-full="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=1600&q=80" data-cap="Lahan pertanian (contoh)"><div class="ph" data-label="[Lahan Pertanian]"><img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?auto=format&fit=crop&w=900&q=75" alt="Hamparan lahan pertanian hijau" loading="lazy"></div><span class="g-cap">Lahan pertanian</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BERITA ============ -->
+<section id="berita">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Berita</span>
+      <h2 class="section-title">Informasi dan Kabar Terbaru</h2>
+      <p class="section-sub">Artikel di bawah ini adalah contoh tampilan, bukan berita aktual yayasan.</p>
+    </div>
+    <div class="news-grid">
+      <!-- GANTI: artikel asli. Tanggal sengaja ditulis [Tanggal] agar tidak tampak seperti berita nyata. -->
+      <article class="news-card reveal">
+        <div class="ph" data-label="[Thumbnail Berita]"><img src="https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&w=800&q=80" alt="Relawan membantu kegiatan sosial" loading="lazy"></div>
+        <div class="news-body">
+          <div class="news-meta"><span class="news-cat">Sosial</span><span>[Tanggal]</span><span class="demo-tag">Contoh</span></div>
+          <h3>Gotong Royong sebagai Kekuatan Membangun Lingkungan</h3>
+          <p>Contoh ringkasan artikel tentang pentingnya semangat kebersamaan dalam kegiatan sosial masyarakat.</p>
+          <button class="program-link" data-modal="Artikel contoh. Konten berita akan tersedia setelah situs resmi dikembangkan.">Baca Selengkapnya <span aria-hidden="true">→</span></button>
+        </div>
+      </article>
+      <article class="news-card reveal">
+        <div class="ph" data-label="[Thumbnail Berita]"><img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=800&q=80" alt="Anak-anak belajar bersama" loading="lazy"></div>
+        <div class="news-body">
+          <div class="news-meta"><span class="news-cat">Pendidikan</span><span>[Tanggal]</span><span class="demo-tag">Contoh</span></div>
+          <h3>Menyiapkan Generasi Berilmu dan Berakhlak</h3>
+          <p>Contoh ringkasan artikel mengenai pengembangan potensi pendidikan dan keterampilan generasi muda.</p>
+          <button class="program-link" data-modal="Artikel contoh. Konten berita akan tersedia setelah situs resmi dikembangkan.">Baca Selengkapnya <span aria-hidden="true">→</span></button>
+        </div>
+      </article>
+      <article class="news-card reveal">
+        <div class="ph" data-label="[Thumbnail Berita]"><img src="https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=800&q=80" alt="Lahan pertanian yang subur" loading="lazy"></div>
+        <div class="news-body">
+          <div class="news-meta"><span class="news-cat">Pertanian</span><span>[Tanggal]</span><span class="demo-tag">Contoh</span></div>
+          <h3>Potensi Pertanian sebagai Penguat Ekonomi Masyarakat</h3>
+          <p>Contoh ringkasan artikel tentang peluang pertanian dalam mendukung kemandirian ekonomi.</p>
+          <button class="program-link" data-modal="Artikel contoh. Konten berita akan tersedia setelah situs resmi dikembangkan.">Baca Selengkapnya <span aria-hidden="true">→</span></button>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CTA DONASI ============ -->
+<section class="cta" id="donasi">
+  <div class="container">
+    <div class="cta-box reveal">
+      <h2>Setiap Kebaikan Memiliki Arti</h2>
+      <p class="d">Melalui kepedulian dan kontribusi bersama, kita dapat menghadirkan manfaat yang lebih luas bagi masyarakat.</p>
+      <!-- Fase prototype: hanya menampilkan info fitur mendatang. TIDAK ada form donasi / bukti transfer / WhatsApp. -->
+      <button class="btn btn-gold" data-modal="Fitur Infaq &amp; Sedekah sedang dipersiapkan untuk fase pengembangan berikutnya.">Infaq &amp; Sedekah</button>
+      <p class="cta-note">Informasi dan mekanisme kontribusi akan tersedia melalui layanan resmi yayasan.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KONTAK ============ -->
+<section id="kontak" style="padding-top:0">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">Kontak</span>
+      <h2 class="section-title">Hubungi Kami</h2>
+    </div>
+    <!-- GANTI: seluruh placeholder dengan data resmi -->
+    <div class="contact-grid">
+      <div class="contact-card reveal"><div class="contact-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div><div><b>Alamat</b><span>[Alamat Yayasan]</span></div></div>
+      <div class="contact-card reveal"><div class="contact-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.5A8.4 8.4 0 1 1 21 11.5z"/></svg></div><div><b>WhatsApp</b><span>[Nomor WhatsApp Resmi]</span></div></div>
+      <div class="contact-card reveal"><div class="contact-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg></div><div><b>Email</b><span>[Email Yayasan]</span></div></div>
+      <div class="contact-card reveal"><div class="contact-icon"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".6" fill="currentColor"/></svg></div><div><b>Instagram</b><span>[Akun Instagram]</span></div></div>
+    </div>
+    <div class="contact-action reveal">
+      <!-- Aktifkan: isi WA_NUMBER di bagian JavaScript (format 62812xxxxxxx), tombol otomatis aktif -->
+      <a id="waBtn" class="btn btn-primary is-disabled" href="#kontak" aria-disabled="true">Chat WhatsApp</a>
+      <small id="waHint">Tombol aktif setelah nomor resmi dikonfirmasi.</small>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer>
+  <div class="container footer-grid">
+    <div class="footer-brand">
+      <a href="#beranda" class="brand">
+        <svg class="brand-logo" viewBox="0 0 48 48" aria-hidden="true">
+          <circle cx="24" cy="24" r="23" fill="#0f3829"/>
+          <circle cx="24" cy="24" r="19" fill="none" stroke="#C9A45C" stroke-width="1.5"/>
+          <text x="24" y="29" text-anchor="middle" font-family="Georgia,serif" font-weight="700" font-size="14" fill="#C9A45C">IKM</text>
+        </svg>
+        <span class="brand-name">Yayasan Insan Kamil Mandiri Indonesia</span>
+      </a>
+      <p>Ikhtiar membangun masyarakat yang berdaya, mandiri, dan memberikan manfaat bagi sesama.</p>
+    </div>
+    <div>
+      <h4>Navigasi</h4>
+      <ul>
+        <li><a href="#beranda">Beranda</a></li>
+        <li><a href="#tentang">Tentang Kami</a></li>
+        <li><a href="#program">Program</a></li>
+        <li><a href="#kegiatan">Kegiatan</a></li>
+        <li><a href="#berita">Berita</a></li>
+        <li><a href="#kontak">Kontak</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4>Kontak &amp; Media Sosial</h4>
+      <ul>
+        <li>[Alamat Yayasan]</li>
+        <li>[Email Yayasan]</li>
+        <li>[Nomor WhatsApp Resmi]</li>
+      </ul>
+      <!-- GANTI: href media sosial dengan tautan resmi -->
+      <div class="social">
+        <a href="#kontak" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/></svg></a>
+        <a href="#kontak" aria-label="WhatsApp"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-12.4 7.4L3 21l2.1-5.5A8.4 8.4 0 1 1 21 11.5z"/></svg></a>
+        <a href="#kontak" aria-label="Email"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><polyline points="3 7 12 13 21 7"/></svg></a>
+      </div>
+    </div>
+  </div>
+  <div class="container footer-bottom">
+    <span>&copy; <span id="year">2026</span> Yayasan Insan Kamil Mandiri Indonesia. Hak cipta dilindungi.</span>
+    <span>Prototype — seluruh konten adalah contoh.</span>
+  </div>
+</footer>
+
+<!-- ============ LIGHTBOX ============ -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Pratinjau foto">
+  <button class="lb-btn lb-close" id="lbClose" aria-label="Tutup">&times;</button>
+  <button class="lb-btn lb-prev" id="lbPrev" aria-label="Foto sebelumnya">&#8249;</button>
+  <figure><img id="lbImg" src="" alt=""><figcaption id="lbCap"></figcaption></figure>
+  <button class="lb-btn lb-next" id="lbNext" aria-label="Foto berikutnya">&#8250;</button>
+</div>
+
+<!-- ============ MODAL "SEGERA HADIR" ============ -->
+<div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <div class="ico"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+    <h3 id="modalTitle">Segera Hadir</h3>
+    <p id="modalText"></p>
+    <button class="btn btn-primary" id="modalClose">Mengerti</button>
+  </div>
+</div>
+
+<button class="to-top" id="toTop" aria-label="Kembali ke atas"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg></button>
+
+<script>
+/* ==========================================================
+   KONFIGURASI (ubah di sini)
+   ========================================================== */
+// Isi dengan nomor resmi format internasional tanpa +, contoh: "6281234567890". Kosongkan = tombol nonaktif.
+const WA_NUMBER = "";
+const WA_MESSAGE = "Assalamu'alaikum, saya ingin bertanya tentang Yayasan Insan Kamil Mandiri Indonesia.";
+
+(function () {
+  'use strict';
+  const $  = (s, c = document) => c.querySelector(s);
+  const $$ = (s, c = document) => Array.from(c.querySelectorAll(s));
+
+  /* ---------- 1. Navbar: shadow, menu mobile, link aktif ---------- */
+  const navbar = $('#navbar'), burger = $('#hamburger'), mobileMenu = $('#mobileMenu'), toTop = $('#toTop');
+
+  function setMenu(open) {
+    burger.classList.toggle('open', open);
+    mobileMenu.classList.toggle('open', open);
+    burger.setAttribute('aria-expanded', open);
+    burger.setAttribute('aria-label', open ? 'Tutup menu' : 'Buka menu');
+  }
+  burger.addEventListener('click', () => setMenu(!mobileMenu.classList.contains('open')));
+  $$('a', mobileMenu).forEach(a => a.addEventListener('click', () => setMenu(false)));
+
+  function onScroll() {
+    navbar.classList.toggle('scrolled', window.scrollY > 10);
+    toTop.classList.toggle('show', window.scrollY > 600);
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  toTop.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+
+  // Highlight menu sesuai section yang tampil
+  const navLinks = $$('.nav-menu .nav-link');
+  const sectionMap = navLinks.map(a => ({ a, el: $(a.getAttribute('href')) })).filter(x => x.el);
+  if ('IntersectionObserver' in window) {
+    const spy = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          navLinks.forEach(l => l.classList.remove('active'));
+          const m = sectionMap.find(x => x.el === e.target);
+          if (m) m.a.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sectionMap.forEach(x => spy.observe(x.el));
+  }
+
+  /* ---------- 2. Reveal on scroll ---------- */
+  const reveals = $$('.reveal');
+  if ('IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); obs.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    reveals.forEach((el, i) => { el.style.transitionDelay = (i % 4) * 70 + 'ms'; io.observe(el); });
+  } else { reveals.forEach(el => el.classList.add('is-visible')); }
+
+  /* ---------- 3. Hitung angka impact ---------- */
+  const counters = $$('[data-target]');
+  function runCounter(el) {
+    const target = +el.dataset.target, dur = 1200, t0 = performance.now();
+    (function tick(t) {
+      const p = Math.min((t - t0) / dur, 1);
+      el.textContent = Math.round(target * (1 - Math.pow(1 - p, 3)));
+      if (p < 1) requestAnimationFrame(tick);
+    })(t0);
+  }
+  if ('IntersectionObserver' in window) {
+    const co = new IntersectionObserver((entries, obs) => {
+      entries.forEach(e => { if (e.isIntersecting) { runCounter(e.target); obs.unobserve(e.target); } });
+    }, { threshold: .6 });
+    counters.forEach(c => co.observe(c));
+  } else { counters.forEach(c => c.textContent = c.dataset.target); }
+
+  /* ---------- 4. Fallback foto yang gagal dimuat ---------- */
+  $$('.ph img').forEach(img => {
+    const markBroken = () => img.parentElement.classList.add('is-broken');
+    img.addEventListener('error', () => { img.style.display = 'none'; markBroken(); });
+    if (img.complete && img.naturalWidth === 0) { img.style.display = 'none'; markBroken(); }
+  });
+
+  /* ---------- 5. Lightbox ---------- */
+  const lb = $('#lightbox'), lbImg = $('#lbImg'), lbCap = $('#lbCap');
+  const items = $$('.g-item');
+  let idx = 0;
+  function showLB(i) {
+    idx = (i + items.length) % items.length;
+    const it = items[idx], alt = $('img', it).alt;
+    lbImg.src = it.dataset.full; lbImg.alt = alt; lbCap.textContent = it.dataset.cap || alt;
+  }
+  function openLB(i) { showLB(i); lb.classList.add('open'); document.body.style.overflow = 'hidden'; $('#lbClose').focus(); }
+  function closeLB() { lb.classList.remove('open'); document.body.style.overflow = ''; }
+  items.forEach((it, i) => it.addEventListener('click', () => openLB(i)));
+  $('#lbClose').addEventListener('click', closeLB);
+  $('#lbPrev').addEventListener('click', () => showLB(idx - 1));
+  $('#lbNext').addEventListener('click', () => showLB(idx + 1));
+  lb.addEventListener('click', e => { if (e.target === lb) closeLB(); });
+
+  /* ---------- 6. Modal "fitur segera hadir" ---------- */
+  const modal = $('#modal'), modalText = $('#modalText');
+  function openModal(msg) { modalText.innerHTML = msg; modal.classList.add('open'); $('#modalClose').focus(); }
+  function closeModal() { modal.classList.remove('open'); }
+  $$('[data-modal]').forEach(b => b.addEventListener('click', () => openModal(b.dataset.modal)));
+  $('#modalClose').addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+
+  /* ---------- 7. Keyboard ---------- */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') { closeLB(); closeModal(); setMenu(false); }
+    if (lb.classList.contains('open')) {
+      if (e.key === 'ArrowLeft') showLB(idx - 1);
+      if (e.key === 'ArrowRight') showLB(idx + 1);
+    }
+  });
+
+  /* ---------- 8. Tombol WhatsApp (aktif hanya jika nomor diisi) ---------- */
+  const wa = $('#waBtn');
+  if (WA_NUMBER && /^\d{8,15}$/.test(WA_NUMBER)) {
+    wa.href = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(WA_MESSAGE);
+    wa.target = '_blank'; wa.rel = 'noopener';
+    wa.classList.remove('is-disabled'); wa.removeAttribute('aria-disabled');
+    $('#waHint').textContent = '';
+  } else {
+    wa.addEventListener('click', e => e.preventDefault());
+  }
+
+  /* ---------- 9. Tahun footer ---------- */
+  $('#year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>
